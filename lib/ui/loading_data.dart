@@ -1,8 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart';
+import 'package:flutter/material.dart';
+import 'package:weatherapp/get_api/CountryInfo.dart';
+import 'package:weatherapp/get_api/Weather.dart';
 
 class LoadingData extends StatefulWidget {
   @override
@@ -10,6 +12,22 @@ class LoadingData extends StatefulWidget {
 }
 
 class _LoadingDataState extends State<LoadingData> {
+
+  @override
+  void initState() {
+    super.initState();
+    getCountryInfo();
+  }
+
+
+  void getCountryInfo() async{
+    CountryInfo info = CountryInfo(urlAddName: "san");
+    await info.getCountryInfo();
+    Weather weather = Weather(woeid : info.woeid);
+    await weather.getWeather();
+  }
+
+
 
 
   @override

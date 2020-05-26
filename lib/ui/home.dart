@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weatherapp/custom_icons_icons.dart';
+import 'file:///C:/Users/ideapad/Desktop/Programowanie/flutter/weather_app/lib/ui/custom_icons_icons.dart';
 import 'file:///C:/Users/ideapad/Desktop/Programowanie/flutter/weather_app/lib/views_cards/weather_card.dart';
 
 import '../views_cards/weather_list_card.dart';
@@ -13,6 +13,12 @@ class _HomeState extends State<Home> {
 
   List<String> listOfStrings = ["edefewfe","2rewewfefef","defffefewf","wefwfweefwfw","ewffeewfwefw","ewfewefewfewfw","wefewnfhuew",
     "edefewfe","2rewewfefef","defffefewf","wefwfweefwfw","ewffeewfwefw","ewfewefewfewfw","wefewnfhuew"];
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
 
   @override
