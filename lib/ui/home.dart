@@ -50,18 +50,19 @@ class _HomeState extends State<Home> {
                     fontWeight: FontWeight.w600),
               ),
             ),
-            Icon(
-              Icons.search,
-              color: Colors.grey[900],
-              size: 35.0,
+            GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(context,'/chooseCountry');
+              },
+              child: Container(
+                child: Icon(
+                  Icons.search,
+                  color: Colors.grey[900],
+                  size: 35.0,
+                ),
+              ),
             ),
-            SizedBox(width: 15.0),
-            Icon(
-              Icons.apps,
-              color: Colors.grey[900],
-              size: 35.0,
-            ),
-            SizedBox(width: 5.0),
+            SizedBox(width: 1.0),
           ],
         ),
       ),

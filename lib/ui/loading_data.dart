@@ -19,7 +19,7 @@ class _LoadingDataState extends State<LoadingData> {
   }
 
   void getCountryInfo() async {
-    CountryInfo info = CountryInfo(urlAddName: "san");
+    CountryInfo info = CountryInfo(urlAddName: "a");
     await info.getCountryInfo();
     await getWeather(info);
   }

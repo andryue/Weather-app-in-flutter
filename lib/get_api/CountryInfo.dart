@@ -8,6 +8,8 @@ class CountryInfo {
   String type;
   int woeid;
 
+
+
   CountryInfo({this.urlAddName});
 
   Future<void> getCountryInfo() async {
