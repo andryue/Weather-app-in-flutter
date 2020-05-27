@@ -9,6 +9,7 @@ class CountryInfo {
   int woeid;
 
 
+  List<dynamic> listOfCountries;
 
   CountryInfo({this.urlAddName});
 
@@ -16,9 +17,9 @@ class CountryInfo {
     try {
       Response response = await get(
           'https://www.metaweather.com/api/location/search/?query=$urlAddName');
-      List<dynamic> list = jsonDecode(response.body);
+      this.listOfCountries = jsonDecode(response.body);
 
-      Map country = list[0];
+      Map country = this.listOfCountries[0];
       this.title = country['title'];
       this.type = country['location_type'];
       this.woeid = country['woeid'];

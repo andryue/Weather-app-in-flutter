@@ -14,11 +14,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  List<String> listOfStrings = ["edefewfe","2rewewfefef","defffefewf","wefwfweefwfw","ewffeewfwefw","ewfewefewfewfw","wefewnfhuew",
-    "edefewfe","2rewewfefef","defffefewf","wefwfweefwfw","ewffeewfwefw","ewfewefewfewfw","wefewnfhuew"];
-
-
-
   Map data = {};
 
 
@@ -34,6 +29,7 @@ class _HomeState extends State<Home> {
     data = ModalRoute.of(context).settings.arguments;
     CountryInfo countryInfo = data['country'];
     List<dynamic> weatherList = data['weather'];
+
 
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +48,9 @@ class _HomeState extends State<Home> {
             ),
             GestureDetector(
               onTap: (){
-                Navigator.pushNamed(context,'/chooseCountry');
+                Navigator.pushReplacementNamed(context,'/chooseCountry',arguments: {
+                  'listOfCountries' : countryInfo.listOfCountries
+                });
               },
               child: Container(
                 child: Icon(
