@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class WeatherListCard extends StatefulWidget {
-  @override
-  _WeatherListCardState createState() => _WeatherListCardState();
-}
+class WeatherListCard extends StatelessWidget {
 
-class _WeatherListCardState extends State<WeatherListCard> {
+  final Map listOfWeathers;
+  WeatherListCard(this.listOfWeathers);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +19,9 @@ class _WeatherListCardState extends State<WeatherListCard> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(5.0,0.0,5.0,0.0),
                   child: Text(
-                    "Sunday",
+                    "${
+                        DateFormat('EEEE').format( DateTime.parse(listOfWeathers['applicable_date']))
+                    }",
                     style: TextStyle(
                       color: Colors.grey[900],
                       fontSize: 20.0,
@@ -30,7 +32,7 @@ class _WeatherListCardState extends State<WeatherListCard> {
                 ),
               ),
               Text(
-                "26° / 11°",
+                "${(listOfWeathers['max_temp']).toStringAsFixed(0)}° / ${(listOfWeathers['min_temp']).toStringAsFixed(0)}°",
                 style: TextStyle(
                     color: Colors.grey[900],
                     fontSize: 18.0,
@@ -41,7 +43,7 @@ class _WeatherListCardState extends State<WeatherListCard> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(15.0,0.0,15.0,0.0),
                 child: Image.network(
-                    'https://www.metaweather.com/static/img/weather/png/c.png',
+                    'https://www.metaweather.com/static/img/weather/png/${(listOfWeathers['weather_state_abbr'])}.png',
                 scale: 22,),
               )
             ],

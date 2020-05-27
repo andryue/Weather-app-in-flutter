@@ -1,4 +1,7 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:weatherapp/get_api/CountryInfo.dart';
 import 'file:///C:/Users/ideapad/Desktop/Programowanie/flutter/weather_app/lib/ui/custom_icons_icons.dart';
 import 'file:///C:/Users/ideapad/Desktop/Programowanie/flutter/weather_app/lib/views_cards/weather_card.dart';
 
@@ -15,6 +18,10 @@ class _HomeState extends State<Home> {
     "edefewfe","2rewewfefef","defffefewf","wefwfweefwfw","ewffeewfwefw","ewfewefewfewfw","wefewnfhuew"];
 
 
+
+  Map data = {};
+
+
   @override
   void initState() {
     super.initState();
@@ -23,6 +30,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
+    data = ModalRoute.of(context).settings.arguments;
+    CountryInfo countryInfo = data['country'];
+    List<dynamic> weatherList = data['weather'];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -30,7 +42,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Expanded(
               child: Text(
-                "Sydney, City",
+                "${countryInfo.title}, ${countryInfo.type}",
                 style: TextStyle(
                     color: Colors.grey[900],
                     fontSize: 24.0,
@@ -62,18 +74,21 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: Text(
-                      "19°",
-                      style: TextStyle(
-                          fontSize: 100.0,
-                          fontFamily: "Sergueui",
-                          fontWeight: FontWeight.w700),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8.0,0.0,0.0,0.0),
+                      child: Text(
+                        "${(weatherList[0]['the_temp']).toStringAsFixed(0)}°",
+                        style: TextStyle(
+                            fontSize: 100.0,
+                            fontFamily: "Sergueui",
+                            fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 5.0, 30.0, 0.0),
                     child: Image.network(
-                      'https://www.metaweather.com/static/img/weather/png/c.png',
+                      'https://www.metaweather.com/static/img/weather/png/${weatherList[0]['weather_state_abbr']}.png',
                       scale: 6,
                     ),
                   )
@@ -90,7 +105,7 @@ class _HomeState extends State<Home> {
                           padding:
                               const EdgeInsets.fromLTRB(12.0, 0.0, 20.0, 0.0),
                           child: Text(
-                            "Sunny day",
+                            "${weatherList[0]['weather_state_name']} day",
                             style: TextStyle(
                                 fontSize: 20.0,
                                 color: Colors.grey[900],
@@ -99,7 +114,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         Text(
-                          "26° / 11°",
+                          "${(weatherList[0]['min_temp']).toStringAsFixed(0)}° / ${(weatherList[0]['max_temp']).toStringAsFixed(0)}°",
                           style: TextStyle(
                               fontSize: 20.0,
                               color: Colors.grey[900],
@@ -107,17 +122,6 @@ class _HomeState extends State<Home> {
                               fontWeight: FontWeight.w500),
                         ),
                       ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-                    child: Text(
-                      "Feels Like 21°",
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.grey[900],
-                          fontFamily: "Sergueui",
-                          fontWeight: FontWeight.w500),
                     ),
                   ),
                 ],
@@ -140,7 +144,7 @@ class _HomeState extends State<Home> {
                           width: 15.0,
                         ),
                         Text(
-                          "17°",
+                          "${(weatherList[0]['air_pressure']).toStringAsFixed(0)} hpa",
                           style: TextStyle(
                               color: Colors.grey[900],
                               fontFamily: "Sergueui",
@@ -162,7 +166,7 @@ class _HomeState extends State<Home> {
                           width: 15.0,
                         ),
                         Text(
-                          "17°",
+                          "${(weatherList[0]['humidity']).toStringAsFixed(0)} %  ",
                           style: TextStyle(
                               color: Colors.grey[900],
                               fontFamily: "Sergueui",
@@ -184,7 +188,7 @@ class _HomeState extends State<Home> {
                           width: 15.0,
                         ),
                         Text(
-                          "17°",
+                          "${(weatherList[0]['the_temp']).toStringAsFixed(0)}°   ",
                           style: TextStyle(
                               color: Colors.grey[900],
                               fontFamily: "Sergueui",
@@ -214,7 +218,7 @@ class _HomeState extends State<Home> {
                           width: 15.0,
                         ),
                         Text(
-                          "17°",
+                          "${(weatherList[0]['min_temp']).toStringAsFixed(0)}°      ",
                           style: TextStyle(
                               color: Colors.grey[900],
                               fontFamily: "Sergueui",
@@ -236,7 +240,7 @@ class _HomeState extends State<Home> {
                           width: 15.0,
                         ),
                         Text(
-                          "17°",
+                          "${(weatherList[0]['max_temp']).toStringAsFixed(0)}°",
                           style: TextStyle(
                               color: Colors.grey[900],
                               fontFamily: "Sergueui",
@@ -258,7 +262,7 @@ class _HomeState extends State<Home> {
                           width: 15.0,
                         ),
                         Text(
-                          "17°",
+                          "${(weatherList[0]['wind_speed']).toStringAsFixed(0)} mph",
                           style: TextStyle(
                               color: Colors.grey[900],
                               fontFamily: "Sergueui",
@@ -291,7 +295,7 @@ class _HomeState extends State<Home> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(0.0, 0.0, 40.0, 0.0),
                           child: Text(
-                            "It's currently cloudy, 19 and the sun sets in 7 hours",
+                            "It's currently ${weatherList[0]['weather_state_name']}, maximum temperature is ${(weatherList[0]['max_temp']).toStringAsFixed(0)}°, minimum is ${(weatherList[0]['min_temp']).toStringAsFixed(0)}°",
                             maxLines: 2,
                             softWrap: true,
                             style:
@@ -310,7 +314,7 @@ class _HomeState extends State<Home> {
                 child: Row(
                   children: <Widget>[
                     Text(
-                      "Friday - ",
+                      "${ DateFormat('EEEE').format( DateTime.parse(weatherList[0]['applicable_date']))} - ",
                       style: TextStyle(
                           color: Colors.grey[900],
                           fontSize: 21.0,
@@ -318,7 +322,7 @@ class _HomeState extends State<Home> {
                           fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "03 Jan (Today)",
+                        "${DateFormat('d MMM').format( DateTime.parse(weatherList[0]['applicable_date']))} (Today)",
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 21.0,
@@ -333,20 +337,25 @@ class _HomeState extends State<Home> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 6,
-                  childAspectRatio: MediaQuery.of(context).size.width/ (MediaQuery.of(context).size.height)),
-                  itemCount: 6,
+                      crossAxisCount: weatherList.length-1,
+                  childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height)),
+                  itemCount: weatherList.length-1,
                   itemBuilder: (context, index) {
                     return GridTile(
-                      child: WeatherCard(),
+                      child: WeatherCard(weatherList[index+1]),
                     );
                   }),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0.0,30.0,0.0,0.0),
-                child: Column(
-                  children: listOfStrings.map((e) => WeatherListCard()).toList(),
+                child: ListView.builder(itemBuilder: (context,index){
+                    return WeatherListCard(weatherList[index+1]);
+                  },
+                  itemCount: weatherList.length-1,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true
+                    ,
+                  physics: const NeverScrollableScrollPhysics(),),
                 ),
-              )
             ],
           ),
         ),

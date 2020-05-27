@@ -12,59 +12,61 @@ class LoadingData extends StatefulWidget {
 }
 
 class _LoadingDataState extends State<LoadingData> {
-
   @override
   void initState() {
     super.initState();
     getCountryInfo();
   }
 
-
-  void getCountryInfo() async{
+  void getCountryInfo() async {
     CountryInfo info = CountryInfo(urlAddName: "san");
     await info.getCountryInfo();
-    Weather weather = Weather(woeid : info.woeid);
-    await weather.getWeather();
+    await getWeather(info);
   }
 
+  Future<void> getWeather(CountryInfo info) async {
+    Weather weather = Weather(woeid: info.woeid);
+    await weather.getWeather();
+    Navigator.pushReplacementNamed(context, '/home', arguments: {
+      'country':info,
+      'weather':weather.weatherList
+    });
+  }
 
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children : <Widget>[
-          SpinKitDoubleBounce(
-            size: 100.0,
-            color: Colors.white,
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-        ColorizeAnimatedTextKit(
-            onTap: () {
-              print("Tap Event");
-            },
-            text: [
-              "LOADING...",
-            ],
-            textStyle: TextStyle(
-                fontSize: 40.0,
-                fontFamily: "Sergueui",
-                 fontWeight: FontWeight.w600
-            ),
-            colors: [
-              Colors.blue[100],
-              Colors.blue[200],
-              Colors.blue[800],
-              Colors.blue[900],
-            ],
-        )
-        ]
-    )
-    );
+        backgroundColor: Colors.blue,
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SpinKitDoubleBounce(
+                size: 100.0,
+                color: Colors.white,
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              ColorizeAnimatedTextKit(
+                onTap: () {
+                  print("Tap Event");
+                },
+                text: [
+                  "LOADING...",
+                ],
+                textStyle: TextStyle(
+                    fontSize: 40.0,
+                    fontFamily: "Sergueui",
+                    fontWeight: FontWeight.w600),
+                colors: [
+                  Colors.blue[100],
+                  Colors.blue[200],
+                  Colors.blue[800],
+                  Colors.blue[900],
+                ],
+              )
+            ]));
   }
 }
