@@ -11,21 +11,25 @@ class ChooseCountry extends StatefulWidget {
 class _ChooseCountryState extends State<ChooseCountry> {
   List<dynamic> listOfFilterLocations = [];
   List<dynamic> listAllOfLocations = [];
-
+  bool isNotClicked;
   @override
   void initState() {
     super.initState();
-
+     isNotClicked = true;
     setState(() {
       listOfFilterLocations.clear();
       listAllOfLocations.clear();
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
     Map map = ModalRoute.of(context).settings.arguments;
-    print(map);
 
     listAllOfLocations = map['listOfCountries'];
 
@@ -65,7 +69,12 @@ class _ChooseCountryState extends State<ChooseCountry> {
         child: ListView.builder(
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () {
+              onTap: isNotClicked ? () {
+
+                setState(() {
+                  isNotClicked = false;
+                });
+
                 final snackBar = SnackBar(
                     content: Text(
                   'Updating weather for ${listOfFilterLocations[index]['title']}...',
@@ -76,7 +85,7 @@ class _ChooseCountryState extends State<ChooseCountry> {
                 ));
                 Scaffold.of(context).showSnackBar(snackBar);
                 updateWeather(index);
-              },
+              } : null ,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
