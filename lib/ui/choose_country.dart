@@ -11,6 +11,7 @@ class ChooseCountry extends StatefulWidget {
 class _ChooseCountryState extends State<ChooseCountry> {
   List<dynamic> listOfFilterLocations = [];
   List<dynamic> listAllOfLocations = [];
+
   @override
   void initState() {
     super.initState();
@@ -19,13 +20,10 @@ class _ChooseCountryState extends State<ChooseCountry> {
       listOfFilterLocations.clear();
       listAllOfLocations.clear();
     });
-
   }
-
 
   @override
   Widget build(BuildContext context) {
-
     Map map = ModalRoute.of(context).settings.arguments;
     print(map);
 
@@ -36,9 +34,7 @@ class _ChooseCountryState extends State<ChooseCountry> {
       appBar: AppBar(
         title: Row(
           children: <Widget>[
-            Expanded(
-                flex: 1,
-                child: Text("Choose your country")),
+            Expanded(flex: 1, child: Text("Choose your country")),
             Expanded(
                 flex: 1,
                 child: TextField(
@@ -49,14 +45,12 @@ class _ChooseCountryState extends State<ChooseCountry> {
                           fontSize: 19.0,
                           color: Colors.white,
                           fontFamily: 'Sergueui',
-                        fontWeight: FontWeight.w600
-                      ),
+                          fontWeight: FontWeight.w600),
                       prefixIcon: Icon(
                         Icons.search,
                         color: Colors.white,
                         size: 28.0,
-                      )
-                  ),
+                      )),
                   style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.white,
@@ -71,7 +65,18 @@ class _ChooseCountryState extends State<ChooseCountry> {
         child: ListView.builder(
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: ()=> updateWeather(index),
+              onTap: () {
+                final snackBar = SnackBar(
+                    content: Text(
+                  'Updating weather for ${listOfFilterLocations[index]['title']}...',
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontFamily: 'Sergueui',
+                      fontWeight: FontWeight.w600),
+                ));
+                Scaffold.of(context).showSnackBar(snackBar);
+                updateWeather(index);
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -101,18 +106,11 @@ class _ChooseCountryState extends State<ChooseCountry> {
     );
   }
 
-
-
-
-
   void filterList(String str) {
     setState(() {
       listOfFilterLocations.clear();
       for (Map i in listAllOfLocations) {
-        if ((i['title'])
-            .toString()
-            .toLowerCase()
-            .contains(str.toLowerCase())) {
+        if ((i['title']).toString().toLowerCase().contains(str.toLowerCase())) {
           listOfFilterLocations.add(i);
         }
       }
@@ -120,22 +118,13 @@ class _ChooseCountryState extends State<ChooseCountry> {
   }
 
   void updateWeather(int index) async {
-    CountryInfo info = CountryInfo(urlAddName: listOfFilterLocations[index]['title']);
+    CountryInfo info =
+        CountryInfo(urlAddName: listOfFilterLocations[index]['title']);
     await info.getCountryInfo();
     info.listOfCountries = listAllOfLocations;
 
     Weather weather = Weather(woeid: info.woeid);
     await weather.getWeather();
-    Navigator.pop(context,{
-      'country':info,
-      'weather':weather.weatherList
-    });
-
-
+    Navigator.pop(context, {'country': info, 'weather': weather.weatherList});
   }
-
-
-
 }
-
-
