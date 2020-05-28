@@ -24,3 +24,14 @@
 - used navigator component
 - search in list of dynamic objects
 - custom classes and widgets
+
+
+## Screenshots :
+
+<img src="scr/loading_page.png" width="40%">
+<img src="scr/home_1_page.png" width="40%">
+<img src="scr/home_2_page.png" width="40%">
+<img src="scr/choose_country_1_page.png" width="40%">
+<img src="scr/choose_country_2_page.png.png" width="40%">
+
+## Thanks for reading. Don't forget to star my project 
