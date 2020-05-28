@@ -1,16 +1,26 @@
-# weatherapp
+# Weather app in flutter
 
-A new Flutter application.
+#### Weather app for capital cities based on metaweather API
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+#### Used features: 
+- flutter material design library
+- metaweather open API  [link](https://www.metaweather.com/api/)
+- flutter spin kit library [link](https://pub.dev/packages/flutter_spinkit)
+- flutter animated text kit library [link](https://pub.dev/packages/animated_text_kit)
+- flutter http library [link](https://pub.dev/packages/http)
+- flutter date format library [link](https://pub.dev/packages/date_format)
+- flutter intl library [link](https://pub.dev/packages/intl)
 
-A few resources to get you started if this is your first Flutter project:
+### App was created in flutter language which is based on dart.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Used technology
+- async tasks
+- get data from api
+- build listview
+- build gridview
+- used maps and lists
+- used navigator component
+- search in list of dynamic objects
+- custom classes and widgets
