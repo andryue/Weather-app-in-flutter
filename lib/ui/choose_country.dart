@@ -1,65 +1,78 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weatherapp/get_api/CountryInfo.dart';
+import 'package:weatherapp/get_api/Weather.dart';
 
 class ChooseCountry extends StatefulWidget {
-
   @override
   _ChooseCountryState createState() => _ChooseCountryState();
 }
 
 class _ChooseCountryState extends State<ChooseCountry> {
   List<dynamic> listOfFilterLocations = [];
+  List<dynamic> listAllOfLocations = [];
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      listOfFilterLocations.clear();
+      listAllOfLocations.clear();
+    });
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
+
     Map map = ModalRoute.of(context).settings.arguments;
-    List<dynamic> listAllOfLocations = map['listOfCountries'];
+    print(map);
+
+    listAllOfLocations = map['listOfCountries'];
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Choose your country"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.all(Radius.circular(35.0))
-              ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20.0,15.0,20.0,15.0),
+        title: Row(
+          children: <Widget>[
+            Expanded(
+                flex: 1,
+                child: Text("Choose your country")),
+            Expanded(
+                flex: 1,
                 child: TextField(
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Enter country...',
-                    icon: Icon(Icons.search,color: Colors.grey[700],size: 35.0,)
+                      hintStyle: TextStyle(
+                          fontSize: 19.0,
+                          color: Colors.white,
+                          fontFamily: 'Sergueui',
+                        fontWeight: FontWeight.w600
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.white,
+                        size: 28.0,
+                      )
                   ),
                   style: TextStyle(
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'Sergueui'
-                  ),
-                  onChanged: (str){
-                      setState(() {
-                        listOfFilterLocations.clear();
-                        for(Map i in listAllOfLocations){
-                          if((i['title']).toString().toLowerCase().contains(str.toLowerCase())) {
-                            listOfFilterLocations.add(i);
-                          }
-                        }
-                      });
-                  },
-                )
-              ),
-            ),
-          ),
-          ListView.builder(
-            itemBuilder: (context, index) {
-              return Column(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Sergueui'),
+                  onChanged: (str) => filterList(str),
+                ))
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: ()=> updateWeather(index),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Divider(
@@ -76,15 +89,53 @@ class _ChooseCountryState extends State<ChooseCountry> {
                   ),
                   Divider(height: 1.0, color: Colors.grey[700]),
                 ],
-              );
-            },
-            itemCount: listOfFilterLocations.length,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-          ),
-        ]),
+              ),
+            );
+          },
+          itemCount: listOfFilterLocations.length,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+        ),
       ),
     );
   }
+
+
+
+
+
+  void filterList(String str) {
+    setState(() {
+      listOfFilterLocations.clear();
+      for (Map i in listAllOfLocations) {
+        if ((i['title'])
+            .toString()
+            .toLowerCase()
+            .contains(str.toLowerCase())) {
+          listOfFilterLocations.add(i);
+        }
+      }
+    });
+  }
+
+  void updateWeather(int index) async {
+    CountryInfo info = CountryInfo(urlAddName: listOfFilterLocations[index]['title']);
+    await info.getCountryInfo();
+    info.listOfCountries = listAllOfLocations;
+
+    Weather weather = Weather(woeid: info.woeid);
+    await weather.getWeather();
+    Navigator.pop(context,{
+      'country':info,
+      'weather':weather.weatherList
+    });
+
+
+  }
+
+
+
 }
+
+

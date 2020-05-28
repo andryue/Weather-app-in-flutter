@@ -20,13 +20,15 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    setState(() {});
   }
 
 
   @override
   Widget build(BuildContext context) {
 
-    data = ModalRoute.of(context).settings.arguments;
+    data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
+
     CountryInfo countryInfo = data['country'];
     List<dynamic> weatherList = data['weather'];
 
@@ -47,14 +49,20 @@ class _HomeState extends State<Home> {
               ),
             ),
             GestureDetector(
-              onTap: (){
-                Navigator.pushReplacementNamed(context,'/chooseCountry',arguments: {
+              onTap: () async {
+                dynamic result = await Navigator.pushNamed(context,'/chooseCountry',arguments: {
                   'listOfCountries' : countryInfo.listOfCountries
+                });
+                setState(() {
+                  data = {
+                    'country': result['country'],
+                    'weather': result['weather']
+                  };
                 });
               },
               child: Container(
                 child: Icon(
-                  Icons.search,
+                  Icons.apps,
                   color: Colors.grey[900],
                   size: 35.0,
                 ),
